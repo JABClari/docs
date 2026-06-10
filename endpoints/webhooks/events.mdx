@@ -1,0 +1,123 @@
+---
+title: "Event reference"
+description: "The nine webhook event types and their payload shapes."
+icon: "bell"
+---
+
+Subscribe to one or more of the nine event types when [registering a webhook](/endpoints/webhooks/register).
+
+## Available events
+
+| Event | Fires when |
+| --- | --- |
+| `store.created` | A new store is provisioned. |
+| `store.updated` | Store settings change. |
+| `order.created` | Native checkout creates an order (partner-owned stores). |
+| `order.paid` | Payment is confirmed (native or BYOP). |
+| `order.fulfilled` | Order is marked fulfilled. |
+| `order.delivered` | Order is marked delivered. |
+| `product.created` | A product is created. |
+| `product.updated` | A product is updated. |
+| `product.deleted` | A product is soft-deleted. |
+
+## Payload shapes
+
+Each delivery body is JSON with an `event` field plus event-specific fields.
+
+<CodeGroup>
+
+```json store.created
+{
+  "event": "store.created",
+  "store_id": "uuid",
+  "store_name": "Kofi's Kente",
+  "domain": "arc-kofis-kente",
+  "country": "Ghana",
+  "created_at": "2026-05-07T12:00:00+00:00"
+}
+```
+
+```json store.updated
+{
+  "event": "store.updated",
+  "store_id": "uuid",
+  "store_name": "Kofi's Kente",
+  "updated_at": "2026-05-07T14:30:00+00:00"
+}
+```
+
+```json order.created
+{
+  "event": "order.created",
+  "order_id": "uuid",
+  "store_id": "uuid",
+  "store_order_id": "BC-0042",
+  "price": 90.00,
+  "currency": "GHS",
+  "paid": true,
+  "created_at": "2026-05-07T12:00:00+00:00"
+}
+// Fires from native checkout (updatePaidStatus) for partner-owned stores.
+// For BYOP, use order.paid — partners control creation in their own system.
+```
+
+```json order.paid
+{
+  "event": "order.paid",
+  "order_id": "uuid",
+  "store_id": "uuid",
+  "store_order_id": "BC-0042",
+  "reference": "TXN-20260507-9913",
+  "amount": 90.00,
+  "currency": "GHS",
+  "method": "native",
+  "paid_at": "2026-05-07T12:30:00+00:00"
+}
+// method = "native" for Bareconnect-native checkout payments,
+//          "byop"   for partner-confirmed BYOP payments via confirm-payment.
+```
+
+```json order.fulfilled
+{
+  "event": "order.fulfilled",
+  "order_id": "uuid",
+  "store_id": "uuid",
+  "store_order_id": "BC-0042",
+  "fulfilled_at": "2026-05-07T12:00:00+00:00"
+}
+```
+
+```json order.delivered
+{
+  "event": "order.delivered",
+  "order_id": "uuid",
+  "store_id": "uuid",
+  "store_order_id": "BC-0042",
+  "delivered_at": "2026-05-07T14:00:00+00:00"
+}
+```
+
+```json product.created / product.updated
+{
+  "event": "product.created",
+  "store_id": "uuid",
+  "product_id": "uuid",
+  "name": "Ankara Tote Bag",
+  "created_at": "2026-05-07T10:00:00+00:00"
+}
+```
+
+```json product.deleted
+{
+  "event": "product.deleted",
+  "store_id": "uuid",
+  "product_id": "uuid",
+  "deleted_at": "2026-05-07T11:00:00+00:00"
+}
+```
+
+</CodeGroup>
+
+<Check>
+  **Endpoint requirements:** return any 2xx within 10 seconds, deduplicate using `X-Bareconnect-Delivery`, and don't rely on delivery order under high load.
+</Check>

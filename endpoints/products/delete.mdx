@@ -1,0 +1,21 @@
+---
+title: "Delete a product"
+sidebarTitle: "Delete product"
+description: "Soft-delete a product, preserving order history."
+icon: "trash"
+---
+
+<Info>
+  **DELETE** `/stores/{store_id}/products/{product_id}` · Scope: `catalog:write`
+</Info>
+
+Soft-deletes the product. The record stays for order history but disappears from the storefront. Fires `product.deleted`.
+
+## Response · 200 OK
+
+```json
+{
+  "success": true,
+  "message": "Product deleted."
+}
+```

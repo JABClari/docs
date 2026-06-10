@@ -1,0 +1,27 @@
+---
+title: "Errors"
+description: "Machine-readable error codes safe to switch on."
+icon: "circle-exclamation"
+---
+
+Every error includes a machine-readable `error_code` in `SCREAMING_SNAKE_CASE` — safe to `switch` on. The `X-Request-Id` response header carries the same UUID as `request_id`; include it when contacting support.
+
+| error\_code | HTTP | When |
+| --- | --- | --- |
+| `MISSING_CREDENTIALS` | 401 | No `Authorization` header, or not `Bearer …` |
+| `INVALID_KEY` | 401 | Key revoked or hash mismatch |
+| `PARTNER_INACTIVE` | 403 | Partner account has `deleted_at` set |
+| `INSUFFICIENT_SCOPE` | 403 | Key lacks the required scope — body includes `required` field naming the missing scope |
+| `NOT_FOUND` | 404 | Resource missing or not linked to this partner |
+| `ALREADY_PAID` | 409 | Order already marked paid — body includes `order_id` |
+| `ALREADY_FULFILLED` | 409 | Order already fulfilled — body includes `order_id` |
+| `ALREADY_DELIVERED` | 409 | Order already delivered — body includes `order_id` |
+| `NOT_APPLICABLE` | 422 | BYOP confirm called by `bareconnect`-mode partner |
+| `FREE_TIER_LIMIT_REACHED` | 422 | Store hit free-tier product cap |
+| `UNSUPPORTED_COUNTRY` | 422 | No currency mapping for given country |
+| `VALIDATION_ERROR` | 422 | Field validation failed (see `errors` field) |
+| `RATE_LIMIT_EXCEEDED` | 429 | More than 60 requests in current 60s window |
+
+## Cross-partner safety
+
+Resources that exist but are not linked to your partner account return `404 NOT_FOUND` — identical to "does not exist" — to prevent UUID enumeration.

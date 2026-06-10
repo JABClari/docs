@@ -1,0 +1,33 @@
+---
+title: "Get a store"
+description: "Fetch a single store by ID."
+icon: "magnifying-glass"
+---
+
+<Info>
+  **GET** `/stores/{store_id}` · Scope: `stores:read`
+</Info>
+
+Returns the same shape as a list item. Returns `404 NOT_FOUND` if the store is not linked to your partner account.
+
+## Path parameters
+
+| Param | Type | Description |
+| --- | --- | --- |
+| `store_id` | uuid | Store identifier |
+
+## Response · 200 OK
+
+```json
+{
+  "data": {
+    "id": "14d794d4-7281-465d-afe1-fc0ff5cdcf91",
+    "name": "Kofi's Kente",
+    "domain": "arc-kofis-kente",
+    "domain_url": "https://arc-kofis-kente.bareconnect.com",
+    "country": "Ghana",
+    "commerce_mode": true,
+    "created_at": "2026-05-01T10:00:00+00:00"
+  }
+}
+```

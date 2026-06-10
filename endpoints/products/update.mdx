@@ -1,0 +1,38 @@
+---
+title: "Update a product"
+sidebarTitle: "Update product"
+description: "Partial update of an existing product."
+icon: "pen-to-square"
+---
+
+<Info>
+  **PATCH** `/stores/{store_id}/products/{product_id}` · Scope: `catalog:write`
+</Info>
+
+Partial update — only fields present in the body are touched. Fires `product.updated`.
+
+## Example
+
+```json
+{
+  "price": 54.99,
+  "quantity": 15
+}
+```
+
+Any subset of the [create-product](/endpoints/products/create) fields is accepted.
+
+## Response · 200 OK
+
+```json
+{
+  "data": {
+    "id": "43ba6da4-f343-45a1-b200-1ef2947438b9",
+    "name": "Ankara Tote",
+    "price": 54.99,
+    "quantity": 15,
+    "status": "published",
+    "updated_at": "2026-05-07T12:30:00+00:00"
+  }
+}
+```

@@ -1,0 +1,86 @@
+---
+title: "Register a webhook"
+sidebarTitle: "Register webhook"
+description: "Create a signed HTTPS webhook endpoint."
+icon: "plus"
+---
+
+<Info>
+  **POST** `/webhooks` · Scope: `webhooks:manage`
+</Info>
+
+Register an HTTPS endpoint. We POST events as they happen, signed with HMAC-SHA256. Verify `X-Bareconnect-Signature` against the raw body before processing. Retries: 5 min, 30 min, 2 h.
+
+## Request body
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `url`<Tooltip tip="required">**req**</Tooltip> | string | HTTPS endpoint (max 500) |
+| `events`<Tooltip tip="required">**req**</Tooltip> | array | Event names to subscribe to. See [event reference](/endpoints/webhooks/events). |
+
+## Example
+
+```json
+{
+  "url": "https://yourplatform.com/hooks/bc",
+  "events": ["order.paid", "order.fulfilled"]
+}
+```
+
+## Response · 201 Created
+
+```json
+{
+  "data": {
+    "id": "802b53a2-90f1-4292-becc-a854f155040f",
+    "url": "https://yourplatform.com/hooks/bc",
+    "events": ["order.paid", "order.fulfilled"],
+    "active": true,
+    "secret": "4C9sUY1RC0QMpJEEESkrupKfEZnfZtlH",
+    "created_at": "2026-05-07T12:00:00+00:00"
+  },
+  "notice": "Save the secret now — it will not be shown again."
+}
+```
+
+<Warning>
+  **The `secret` is shown once.** Save it on creation — you use it to verify the `X-Bareconnect-Signature` header. Lose it and the webhook must be deleted and recreated.
+</Warning>
+
+## Verify the signature
+
+<CodeGroup>
+
+```php PHP
+function verifySignature(string $rawBody, string $signatureHeader, string $secret): bool {
+    $expected = 'sha256=' . hash_hmac('sha256', $rawBody, $secret);
+    return hash_equals($expected, $signatureHeader);
+}
+```
+
+```python Python
+import hmac, hashlib
+
+def verify_signature(raw_body: bytes, signature_header: str, secret: str) -> bool:
+    expected = 'sha256=' + hmac.new(
+        secret.encode(), raw_body, hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(expected, signature_header)
+```
+
+```javascript Node.js
+const crypto = require('crypto');
+
+function verifySignature(rawBody, signatureHeader, secret) {
+  const expected = 'sha256=' + crypto
+    .createHmac('sha256', secret)
+    .update(rawBody)       // raw bytes — not parsed JSON
+    .digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(expected),
+    Buffer.from(signatureHeader)
+  );
+}
+```
+
+</CodeGroup>

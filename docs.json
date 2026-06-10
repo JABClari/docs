@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "Bareconnect Partner API",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#635bff",
+    "light": "#7a73ff",
+    "dark": "#4b44d6"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -31,7 +31,71 @@
           "icon": "newspaper"
         }
       ]
-    }
+    },
+    "groups": [
+      {
+        "group": "Getting started",
+        "icon": "rocket",
+        "pages": [
+          "index.mdx",
+          "base-url.mdx",
+          "authentication.mdx",
+          "scopes.mdx",
+          "response-envelope.mdx",
+          "errors.mdx",
+          "rate-limiting.mdx"
+        ]
+      },
+      {
+        "group": "Identity",
+        "icon": "fingerprint",
+        "pages": [
+          "endpoints/verify-key.mdx"
+        ]
+      },
+      {
+        "group": "Stores",
+        "icon": "store",
+        "pages": [
+          "endpoints/stores/list.mdx",
+          "endpoints/stores/get.mdx",
+          "endpoints/stores/create.mdx",
+          "endpoints/stores/update.mdx"
+        ]
+      },
+      {
+        "group": "Products",
+        "icon": "box",
+        "pages": [
+          "endpoints/products/list.mdx",
+          "endpoints/products/create.mdx",
+          "endpoints/products/update.mdx",
+          "endpoints/products/delete.mdx"
+        ]
+      },
+      {
+        "group": "Orders",
+        "icon": "receipt",
+        "pages": [
+          "endpoints/orders/list.mdx",
+          "endpoints/orders/get.mdx",
+          "endpoints/orders/fulfill.mdx",
+          "endpoints/orders/deliver.mdx",
+          "endpoints/orders/confirm-payment.mdx"
+        ]
+      },
+      {
+        "group": "Webhooks",
+        "icon": "webhook",
+        "pages": [
+          "endpoints/webhooks/list.mdx",
+          "endpoints/webhooks/register.mdx",
+          "endpoints/webhooks/remove.mdx",
+          "endpoints/webhooks/deliveries.mdx",
+          "endpoints/webhooks/events.mdx"
+        ]
+      }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
@@ -40,14 +104,14 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:partners@bareconnect.com",
+        "label": "Contact partners team"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "label": "Get an API key",
+      "href": "mailto:partners@bareconnect.com"
     }
   },
   "contextual": {
@@ -55,18 +119,13 @@
       "copy",
       "view",
       "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
+      "claude"
     ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/bareconnect",
+      "github": "https://github.com/bareconnect"
     }
   }
 }

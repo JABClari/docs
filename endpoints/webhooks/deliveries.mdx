@@ -1,0 +1,13 @@
+---
+title: "Delivery log"
+description: "Inspect every delivery attempt for a webhook."
+icon: "clock-rotate-left"
+---
+
+<Info>
+  **GET** `/webhooks/{webhook_id}/deliveries` · Scope: `webhooks:manage`
+</Info>
+
+Every delivery attempt — `delivered`, `failed`, or `pending` — with `http_status`, `attempts`, and the first 2,000 chars of your endpoint's response.
+
+Cross-reference `delivery_id` with the `X-Bareconnect-Delivery` header in your own logs to correlate webhook deliveries with your application traces.

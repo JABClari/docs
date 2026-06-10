@@ -1,0 +1,49 @@
+---
+title: "List orders"
+description: "Cursor-paginated list of orders for a store."
+icon: "list"
+---
+
+<Info>
+  **GET** `/stores/{store_id}/orders` · Scope: `orders:read`
+</Info>
+
+Cursor-paginated, same shape as [products](/endpoints/products/list). Each order surfaces `paid`, `fulfilled`, `delivered` booleans plus matching `_at` timestamps.
+
+Fulfilment and delivery use idempotency guards — calling [fulfill](/endpoints/orders/fulfill) twice returns `409 ALREADY_FULFILLED` rather than mutating state.
+
+## Query parameters
+
+| Param | Type | Description |
+| --- | --- | --- |
+| `limit` | integer | Results per page (default 20, max 100) |
+| `after` | string | Cursor from `meta.next_cursor` |
+
+## Response · 200 OK
+
+```json
+{
+  "data": [
+    {
+      "id": "5d72f3e0-...",
+      "store_id": "14d794d4-...",
+      "store_order_id": "BC-0042",
+      "price": 90.00,
+      "price_in_store_currency": 90.00,
+      "cart_currency": "GHS",
+      "paid": true,
+      "fulfilled": false,
+      "delivered": false,
+      "is_manual_payment": false,
+      "notes": null,
+      "created_at": "2026-05-06T09:00:00+00:00",
+      "updated_at": "2026-05-06T09:00:00+00:00"
+    }
+  ],
+  "meta": { "count": 1, "has_more": false, "next_cursor": null }
+}
+```
+
+<Info>
+  `cart_currency` is the ISO 4217 code (e.g. `"GHS"`) — not the internal currency UUID.
+</Info>

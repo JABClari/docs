@@ -1,0 +1,39 @@
+---
+title: "List products"
+description: "Cursor-paginated list of products for a store."
+icon: "list"
+---
+
+<Info>
+  **GET** `/stores/{store_id}/products` · Scope: `catalog:read`
+</Info>
+
+Returns published and draft products for the store. `status` is `"published"` or `"draft"`.
+
+## Query parameters
+
+| Param | Type | Description |
+| --- | --- | --- |
+| `limit` | integer | Results per page (default 20, max 100) |
+| `after` | string | Cursor from `meta.next_cursor` |
+
+## Response · 200 OK
+
+```json
+{
+  "data": [
+    {
+      "id": "prod_1",
+      "store_id": "14d794d4-7281-465d-afe1-fc0ff5cdcf91",
+      "status": "published",
+      "name": "Ankara Tote Bag",
+      "price": 45.00,
+      "sku": "ATB-001",
+      "quantity": 12,
+      "type": "physical",
+      "created_at": "2026-05-01T10:00:00+00:00"
+    }
+  ],
+  "meta": { "count": 1, "has_more": false, "next_cursor": null }
+}
+```

@@ -1,0 +1,58 @@
+---
+title: "Authentication"
+description: "Bearer-token authentication using your partner API key."
+icon: "key"
+---
+
+Every request requires your API key as a Bearer token. Keys are issued by the Bareconnect team — contact [partners@bareconnect.com](mailto:partners@bareconnect.com) specifying the [scopes](/scopes) your integration requires.
+
+<CodeGroup>
+
+```php PHP
+// PHP 8 (Guzzle)
+$client = new GuzzleHttp\Client();
+$res = $client->get('https://bareconnect.com/api/partner/v1/me', [
+  'headers' => [
+    'Authorization' => 'Bearer ' . $_ENV['BC_KEY'],
+    'Accept' => 'application/json',
+  ],
+]);
+$data = json_decode($res->getBody(), true);
+```
+
+```python Python
+# Python 3 (requests)
+import os, requests
+
+r = requests.get(
+    "https://bareconnect.com/api/partner/v1/me",
+    headers={
+        "Authorization": f"Bearer {os.environ['BC_KEY']}",
+        "Accept": "application/json",
+    },
+)
+data = r.json()
+```
+
+```javascript Node.js
+// Node 18+ (native fetch)
+const res = await fetch('https://bareconnect.com/api/partner/v1/me', {
+  headers: {
+    Authorization: `Bearer ${process.env.BC_KEY}`,
+    Accept: 'application/json',
+  },
+});
+const data = await res.json();
+```
+
+```bash cURL
+curl https://bareconnect.com/api/partner/v1/me \
+  -H "Authorization: Bearer bc_mgmt_xxxxxxxxxxxxxxxxxxxx" \
+  -H "Accept: application/json"
+```
+
+</CodeGroup>
+
+<Warning>
+  **Keys are shown once.** Store your key in an environment variable or secrets manager immediately. It cannot be retrieved after issuance — only revoked and replaced.
+</Warning>

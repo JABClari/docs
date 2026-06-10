@@ -1,0 +1,46 @@
+---
+title: "Provision a store"
+sidebarTitle: "Create store"
+description: "Create a new merchant store under your partner account."
+icon: "plus"
+---
+
+<Info>
+  **POST** `/stores` · Scope: `stores:write`
+</Info>
+
+Provisions a new merchant store under your partner account. Bareconnect derives the domain (`{partner-prefix}-{store-slug}`), resolves currency from country, creates a system user, runs the setup wizard, and fires the `store.created` webhook.
+
+## Request body
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `name`<Tooltip tip="required">**req**</Tooltip> | string | Store display name (max 255) |
+| `country`<Tooltip tip="required">**req**</Tooltip> | string | Full English country name (e.g. `"Ghana"` → GHS) |
+| `category` | string | Store category (default `general`) |
+| `email` | email | Contact email |
+| `phone` | string | Contact phone (max 30) |
+
+## Response · 201 Created
+
+```json
+{
+  "data": {
+    "id": "14d794d4-7281-465d-afe1-fc0ff5cdcf91",
+    "name": "Kofi's Kente",
+    "domain": "arc-kofis-kente",
+    "domain_url": "https://arc-kofis-kente.bareconnect.com",
+    "country": "Ghana",
+    "commerce_mode": true,
+    "created_at": "2026-05-07T12:00:00+00:00"
+  }
+}
+```
+
+<Info>
+  **`domain` vs `domain_url`:** `domain` is the bare slug (use as a stable identifier); `domain_url` is the ready-to-use HTTPS storefront URL. Both fields appear on every store object across all endpoints.
+</Info>
+
+<Info>
+  Use the full English country name. Country codes (`GH`, `NG`) return `422 UNSUPPORTED_COUNTRY`.
+</Info>

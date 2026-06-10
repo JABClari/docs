@@ -1,0 +1,44 @@
+---
+title: "Confirm payment (BYOP)"
+sidebarTitle: "Confirm payment"
+description: "Confirm payment received through your own gateway."
+icon: "credit-card"
+---
+
+<Info>
+  **POST** `/stores/{store_id}/orders/{order_id}/confirm-payment` · Scope: `orders:confirm`
+</Info>
+
+Confirm payment received through your own gateway. Available only for `byop` and `hybrid` partners — `bareconnect`-mode partners get `422 NOT_APPLICABLE`.
+
+Returns `409 ALREADY_PAID` on retry — body includes `order_id`. Fires `order.paid` with `method: "byop"` on success.
+
+## Request body
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `reference`<Tooltip tip="required">**req**</Tooltip> | string | Your gateway's transaction ID |
+| `amount_confirmed`<Tooltip tip="required">**req**</Tooltip> | number | Amount received |
+| `currency`<Tooltip tip="required">**req**</Tooltip> | string | ISO 4217 (`GHS`, `USD`, …) |
+| `note` | string | Internal note (max 500) |
+
+## Example
+
+```json
+{
+  "reference": "TXN-2026-0507",
+  "amount_confirmed": 90.00,
+  "currency": "GHS"
+}
+```
+
+## Response · 200 OK
+
+```json
+{
+  "success": true,
+  "message": "Payment confirmed. Order marked as paid.",
+  "order_id": "4ca5a4af-aaaa-bbbb-cccc-000000000002",
+  "paid_at": "2026-05-07T12:30:00+00:00"
+}
+```

@@ -1,0 +1,17 @@
+---
+title: "Rate limiting"
+description: "60 requests per minute, per API key."
+icon: "gauge-high"
+---
+
+**60 requests per minute per API key.** Per-IP rotation does not help — the limit is on the key. Two keys (production \+ staging) get 60 req/min independently.
+
+## Headers on every response
+
+```http
+X-RateLimit-Limit:     60
+X-RateLimit-Remaining: 54
+X-RateLimit-Reset:     1778153520   # unix epoch — next minute boundary
+```
+
+When exceeded, requests return `429 RATE_LIMIT_EXCEEDED`. Back off until `X-RateLimit-Reset`.

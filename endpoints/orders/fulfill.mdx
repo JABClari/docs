@@ -1,0 +1,23 @@
+---
+title: "Fulfill an order"
+sidebarTitle: "Fulfill"
+description: "Mark an order as packed and handed to courier."
+icon: "box-taped"
+---
+
+<Info>
+  **PATCH** `/stores/{store_id}/orders/{order_id}/fulfill` · Scope: `orders:write`
+</Info>
+
+Marks the order as packed / handed to courier. Returns `409 ALREADY_FULFILLED` on retry — body includes `order_id`. Fires `order.fulfilled` on success.
+
+## Response · 200 OK
+
+```json
+{
+  "success": true,
+  "message": "Order marked as fulfilled.",
+  "order_id": "5d72f3e0-aaaa-bbbb-cccc-000000000001",
+  "fulfilled_at": "2026-05-06T12:00:00+00:00"
+}
+```

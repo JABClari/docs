@@ -1,0 +1,20 @@
+---
+title: "Base URL & transport"
+description: "JSON in, JSON out, over HTTPS to a single base URL."
+icon: "globe"
+---
+
+All requests are made over HTTPS to a single base URL. JSON in, JSON out. Every response includes `X-Request-Id` and `X-RateLimit-*` headers.
+
+```http Base URL
+https://bareconnect.com/api/partner/v1
+```
+
+## Response headers
+
+| Header | Description |
+| --- | --- |
+| `X-Request-Id` | UUID that matches `request_id` in the response body. Include when contacting support. |
+| `X-RateLimit-Limit` | Always `60`. |
+| `X-RateLimit-Remaining` | Requests remaining in the current 60s window. |
+| `X-RateLimit-Reset` | Unix epoch when the window resets. |

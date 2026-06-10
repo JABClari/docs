@@ -1,0 +1,29 @@
+---
+title: "Update a store"
+description: "Partial update of store settings."
+icon: "pen-to-square"
+---
+
+<Info>
+  **PATCH** `/stores/{store_id}` · Scope: `stores:write`
+</Info>
+
+Send only the fields you want to change. All fields are optional. Fires `store.updated`.
+
+## Request body
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `name` | string | Display name |
+| `general_email` | email | General contact email |
+| `support_email` | email | Customer-facing email |
+| `category` | string | Store category |
+
+## Example
+
+```json
+{
+  "name": "Updated Name",
+  "support_email": "help@example.com"
+}
+```

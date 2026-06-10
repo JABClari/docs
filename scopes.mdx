@@ -1,0 +1,18 @@
+---
+title: "Scopes"
+description: "The eight scopes that gate every endpoint."
+icon: "shield-check"
+---
+
+Each key is issued with a specific set of scopes. Calling an endpoint without the required scope returns `403 INSUFFICIENT_SCOPE`. Request only what you need.
+
+| Scope | Grants |
+| --- | --- |
+| `stores:read` | List and inspect merchant stores linked to your partner account |
+| `stores:write` | Provision new stores and update store settings |
+| `catalog:read` | Browse products across linked stores |
+| `catalog:write` | Create, update, and delete products |
+| `orders:read` | View orders, fulfilment status, and transactions |
+| `orders:write` | Update fulfilment and delivery status on orders |
+| `orders:confirm` | Confirm payment via your own gateway (BYOP/Hybrid only) |
+| `webhooks:manage` | Register, list, and remove webhook endpoints |

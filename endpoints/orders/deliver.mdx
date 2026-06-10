@@ -1,0 +1,23 @@
+---
+title: "Mark as delivered"
+sidebarTitle: "Deliver"
+description: "Confirm the customer received the order."
+icon: "truck"
+---
+
+<Info>
+  **PATCH** `/stores/{store_id}/orders/{order_id}/deliver` · Scope: `orders:write`
+</Info>
+
+Customer received the item. Returns `409 ALREADY_DELIVERED` on retry — body includes `order_id`. Fires `order.delivered` on success.
+
+## Response · 200 OK
+
+```json
+{
+  "success": true,
+  "message": "Order marked as delivered.",
+  "order_id": "5d72f3e0-aaaa-bbbb-cccc-000000000001",
+  "delivered_at": "2026-05-06T14:00:00+00:00"
+}
+```

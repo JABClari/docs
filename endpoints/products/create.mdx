@@ -1,0 +1,46 @@
+---
+title: "Create a product"
+sidebarTitle: "Create product"
+description: "Add a product to a store."
+icon: "plus"
+---
+
+<Info>
+  **POST** `/stores/{store_id}/products` · Scope: `catalog:write`
+</Info>
+
+Fires `product.created` on success.
+
+## Request body
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `name`<Tooltip tip="required">**req**</Tooltip> | string | Product name (max 255) |
+| `price`<Tooltip tip="required">**req**</Tooltip> | number | Selling price (store currency) |
+| `description` | string | Up to 5000 chars |
+| `sku` | string | Stock keeping unit (max 100) |
+| `quantity` | integer | Stock count (default 0) |
+| `compare_price` | number | Original price for comparison |
+| `track_inventory` | boolean | Decrement stock on orders |
+| `published` | boolean | Publish immediately (default false) |
+
+## Response · 201 Created
+
+```json
+{
+  "data": {
+    "id": "43ba6da4-f343-45a1-b200-1ef2947438b9",
+    "store_id": "14d794d4-7281-465d-afe1-fc0ff5cdcf91",
+    "status": "published",
+    "type": "physical",
+    "name": "Ankara Tote",
+    "price": 45.00,
+    "quantity": 20,
+    "created_at": "2026-05-07T12:00:00+00:00"
+  }
+}
+```
+
+<Warning>
+  **Free tier:** if the store has hit `free_tier_products`, the request returns `422 FREE_TIER_LIMIT_REACHED` with `limit` and `current` fields.
+</Warning>

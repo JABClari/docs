@@ -1,0 +1,39 @@
+---
+title: "Verify your key"
+sidebarTitle: "Verify key"
+description: "Inspect partner identity, scopes, and last-used timestamp for the calling key."
+icon: "id-badge"
+---
+
+<Info>
+  **GET** `/me` · No scope required — useful as a setup health-check.
+</Info>
+
+Inspect the partner identity, scopes, and last-used timestamp for the calling key.
+
+## Response · 200 OK
+
+```json
+{
+  "partner": {
+    "id": "5fb814e2-a68d-4fde-a988-0cb820aef7aa",
+    "name": "Your Platform Name",
+    "slug": "your-platform",
+    "payment_mode": "hybrid"
+  },
+  "key": {
+    "name": "Production Key",
+    "prefix": "bc_mgmt_0gRr5e9",
+    "scopes": ["stores:read", "catalog:read", "orders:read"],
+    "last_used_at": "2026-05-07T14:59:09+00:00"
+  }
+}
+```
+
+## Notes
+
+`payment_mode` determines BYOP eligibility:
+
+- `bareconnect` — blocks `confirm-payment` with `422 NOT_APPLICABLE`
+- `byop` — allows BYOP confirms
+- `hybrid` — allows BYOP confirms
